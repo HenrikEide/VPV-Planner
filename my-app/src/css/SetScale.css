@@ -1,0 +1,96 @@
+.lenScale {
+  display: flex;
+  flex-direction: row;
+  margin: 2%;
+}
+
+.Line {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+  width: 460px;
+  margin-top: 3px;
+  margin-left: 40px;
+  background-color: aliceblue;
+}
+.dimension-toggle {
+  margin-top: 10px; /* adjust as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.showScale {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%;
+  margin-top: 10px;
+  align-items: start;
+  padding: 10px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+}
+
+.Fargetest {
+  margin: 20px;
+  min-height: 350px;
+}
+
+.Fargeboks {
+  margin: 5px;
+}
+
+#unitlabel {
+  position: relative;
+  left: 80px;
+  top: -36px;
+}
+
+#lineHelp {
+  position: relative;
+  left: 200px;
+  top: 45px;
+}
+
+.nextButton {
+  position: absolute;
+  bottom: 70px;
+  right: 70px;
+}
+
+.back-button {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 35px;
+  margin-top: 5px;
+}
+
+.draggable {
+  position: absolute;
+  z-index: 100;
+}
+
+.rotatable {
+  display: inline-block;
+  position: relative;
+  transform-origin: center center;
+}
+
+.rotate-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 50%;
+}
+
+.vertex {
+  cursor: grab;
+}
+
+.drawn-cursor {
+  cursor: crosshair;
+}

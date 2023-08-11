@@ -1,0 +1,40 @@
+.row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 70%;
+}
+
+.col-12 {
+  flex: 1;
+  padding: 0;
+  overflow: auto;
+  text-align: start;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+.col-12 ul li {
+  list-style-type: circle;
+  padding: 0;
+}
+
+.tables-container {
+  display: flex;
+}
+
+.table-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.subheader {
+  margin: 8vh 0 2vh 0;
+}
+
+.dlButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin: 2vh 0;
+}
