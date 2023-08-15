@@ -39,16 +39,18 @@ export default function Results() {
   const nUnits = getUnitCount(layouts);
   const [emailPrefix, setEmailPrefix] = useState("");
   const layoutCounts = layouts.map((layout) => getUnitCount([layout]));
-  const gridRot = grids[0].rotation || 0;
+  const gridRot = grids[0].rotation + 90 || 0;
   const calcMainOrient = () => {
-    const tmp = (gridRot + azimuth) % 360;
-    if (tmp > 270) {
+    const tmp = (gridRot - azimuth) % 360;
+    if (tmp > 180) {
       return tmp - 180;
     }
-    if (tmp < 90) {
-      return tmp + 180;
+    if (tmp < 180) {
+      return 180 - tmp;
     }
   };
+  const arrayOrient = calcMainOrient();
+  console.log("Main Orient", arrayOrient);
 
   //Layoyt by
   async function getEmailPrefix() {
@@ -60,8 +62,6 @@ export default function Results() {
   useEffect(() => {
     getEmailPrefix();
   }, []);
-
-  const arrayOrient = calcMainOrient();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -247,53 +247,49 @@ export default function Results() {
             <div className="subheader">
               <h2>Energy Yield Estimation</h2>
             </div>
-            {true ? (
-              <Table size="small">
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Array</Table.HeaderCell>
-                    <Table.HeaderCell># Units</Table.HeaderCell>
-                    <Table.HeaderCell>
-                      Installed Capacity [kWp]
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                      Specific Yield [kWh/kWp]
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>Yearly Yield [kWh]</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {layouts.map((layout, i) => (
-                    <Table.Row key={i}>
-                      <Table.DataCell>{i + 1}</Table.DataCell>
-                      <Table.DataCell>{layoutCounts[i]}</Table.DataCell>
-                      <Table.DataCell>
-                        {(0.2 * layoutCounts[i]).toFixed(1)}
-                      </Table.DataCell>
-                      <Table.DataCell>{apiData.toFixed(1)}</Table.DataCell>
-                      <Table.DataCell>
-                        {(apiData * 0.2 * layoutCounts[i]).toFixed(1)}
-                      </Table.DataCell>
-                    </Table.Row>
-                  ))}
-                  <Table.Row>
-                    <Table.DataCell>Total</Table.DataCell>
-                    <Table.DataCell>{nUnits}</Table.DataCell>
+            <Table size="small">
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Array</Table.HeaderCell>
+                  <Table.HeaderCell># Units</Table.HeaderCell>
+                  <Table.HeaderCell>Installed Capacity [kWp]</Table.HeaderCell>
+                  <Table.HeaderCell>Specific Yield [kWh/kWp]</Table.HeaderCell>
+                  <Table.HeaderCell>Yearly Yield [kWh]</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {layouts.map((_, i) => (
+                  <Table.Row key={i}>
+                    <Table.DataCell>{i + 1}</Table.DataCell>
+                    <Table.DataCell>{layoutCounts[i]}</Table.DataCell>
                     <Table.DataCell>
-                      {(apiData * nUnits).toFixed(2)}
+                      {(0.2 * layoutCounts[i]).toFixed(1)}
                     </Table.DataCell>
                     <Table.DataCell>
-                      {(apiData * 0.2).toFixed(2)}
+                      {apiData ? apiData.toFixed(1) : "Loading.."}
                     </Table.DataCell>
                     <Table.DataCell>
-                      {(apiData * 0.2 * nUnits).toFixed(2)}
+                      {apiData
+                        ? (apiData * 0.2 * layoutCounts[i]).toFixed(1)
+                        : "Loading..."}
                     </Table.DataCell>
                   </Table.Row>
-                </Table.Body>
-              </Table>
-            ) : (
-              <p>Loading...</p>
-            )}
+                ))}
+                <Table.Row>
+                  <Table.DataCell>Total</Table.DataCell>
+                  <Table.DataCell>{nUnits}</Table.DataCell>
+                  <Table.DataCell>{(0.2 * nUnits).toFixed(1)}</Table.DataCell>
+                  <Table.DataCell>
+                    {apiData ? apiData.toFixed(1) : "Loading..."}
+                  </Table.DataCell>
+                  <Table.DataCell>
+                    {apiData
+                      ? (apiData * 0.2 * nUnits).toFixed(1)
+                      : "Loading..."}
+                  </Table.DataCell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
             <div className="subheader">
               <h2>Bill Of Materials</h2>
             </div>
@@ -345,17 +341,17 @@ export default function Results() {
           </div>
           <div
             style={{
-              display: "flex",
+              // display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
             }}
           >
-            <div style={{ flex: 1, marginRight: "1rem" }}>
+            <div>
               {screenshotTransparent && (
                 <img
                   src={screenshotTransparent}
                   alt="Transparent Screenshot"
-                  style={{ width: "100%", maxWidth: "500px" }}
+                  style={{ width: "100%", maxWidth: "110vh" }}
                 />
               )}
             </div>
@@ -365,7 +361,7 @@ export default function Results() {
                 <img
                   src={screenshotOpaque}
                   alt="Opaque Screenshot"
-                  style={{ width: "100%", maxWidth: "500px" }}
+                  style={{ width: "100%", maxWidth: "110vh" }}
                 />
               )}
             </div>
